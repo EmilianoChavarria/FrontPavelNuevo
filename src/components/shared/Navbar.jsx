@@ -9,7 +9,7 @@ export const Navbar = () => {
                     <span className='text-2xl font-semibold'>Sistema de Gestión de Proyectos</span>
                     <button className='bg-green-800 text-white px-4 py-2 rounded-lg flex'>
                         <FaUserCog className="mr-2 h-5 w-5" />
-                        Personal
+                        Gestión del personal
                     </button>
 
                 </div>

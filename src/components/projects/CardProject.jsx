@@ -1,15 +1,133 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ProgressBar } from 'primereact/progressbar';
 import { Badge } from '../UI/Badge';
+import { Menu } from 'primereact/menu';
 import moment from 'moment';
 
 
-export const CardProject = ({project}) => {
+export const CardProject = ({ project }) => {
+    const menuRight = useRef(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const toggleDropdown = () => {
+        setIsDropdownOpen((prevState) => !prevState);
+    };
+
+    const items = [
+        {
+            label: 'Options',
+            items: [
+                {
+                    label: 'Refresh',
+                    icon: 'pi pi-refresh'
+                },
+                {
+                    label: 'Export',
+                    icon: 'pi pi-upload'
+                }
+            ]
+        }
+    ];
+
+    useEffect(() => {
+
+
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+
+
+
+    }, []);
+
     return (
-        <div className='bg-white px-4 py-6 rounded-lg'>
+
+        <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm'>
             <header className='flex justify-between items-center mb-2'>
-                <span className='text-lg'>{project.name}</span>
-                <button>asd</button>
+                <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>{project.name}</span>
+                <div>
+
+                    <div ref={dropdownRef} className="aboslute">
+                        <button
+                            id="dropdownMenuIconButton"
+                            onClick={toggleDropdown}
+                            className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-600 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                            type="button"
+                        >
+                            <svg
+                                className="w-4 h-4"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                viewBox="0 0 4 15"
+                            >
+                                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
+                            </svg>
+                        </button>
+
+                        {/* Menú desplegable */}
+                        {isDropdownOpen && (
+                            <div
+                                id="dropdownDots"
+                                className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                            >
+                                <ul
+                                    className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownMenuIconButton"
+                                >
+                                    <li>
+                                        <a onClick={() => {
+                                            toggleDropdown;
+                                            openModalFunction(project.id);
+
+                                        }
+
+                                        }
+                                            href="#"
+                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >
+                                            Editar información
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onClick={() => {
+                                            toggleDropdown;
+
+                                        }
+
+                                        }
+                                            target="_blank"
+                                            href={`/gantt/${project.id}`}
+                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >
+                                            Ver Gantt
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onClick={() => {
+                                            toggleDropdown;
+                                            deleteProject(project.id);
+                                        }
+                                        }
+                                            href="#"
+                                            className="text-red-600 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        >
+                                            Eliminar proyecto
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                        )}
+                    </div>
+                </div>
             </header>
             <div className='px-1'>
                 <span className='text-sm text-gray-700'>{project.description}</span>
@@ -18,7 +136,7 @@ export const CardProject = ({project}) => {
                         <span className='text-sm text-gray-700'>Progreso</span>
                         <span className='text-sm text-gray-700'>{project.completion_percentage}%</span>
                     </div>
-                    <ProgressBar value={50} color='#3b82f6' showValue={false} className='h-3 rounded-full'></ProgressBar>
+                    <ProgressBar value={project.completion_percentage} color='#3b82f6' showValue={false} className='h-3 rounded-full'></ProgressBar>
                     <div className='flex justify-between items-center mt-3'>
                         <span className='flex text-sm text-gray-600'>
                             <svg className="w-[18px] h-[18px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -26,7 +144,7 @@ export const CardProject = ({project}) => {
                             </svg>
                             {moment(project.start_date).format('ll')} - {moment(project.end_date).format('ll')}
                         </span>
-                        <Badge/>
+                        <Badge />
                     </div>
                 </div>
             </div>

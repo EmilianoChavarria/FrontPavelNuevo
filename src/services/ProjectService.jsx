@@ -12,5 +12,28 @@ export const ProjectService = {
     } catch (error) {
       console.error("Error en ProjectService.getAll:", error);
     }
+  },
+
+  saveProject: async (projectData) => {
+    try {
+      const response = await fetch(`${URL}/saveProject`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(projectData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al guardar proyecto: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+
+    } catch (error) {
+      console.error("Error en ProjectService.saveProject:", error);
+      throw error; // Re-throw the error so it can be handled by the calling component
+    }
   }
 };
