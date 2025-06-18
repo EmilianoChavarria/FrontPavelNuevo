@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import { Navbar } from './components/shared/Navbar'
+import { ProjectsView } from './views/Projects/ProjectsView'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <Navbar />
-      <h1>Hola</h1>
+      <div className='bg-blue-100 py-8'>
+        <div className=' h-screen max-w-7xl mx-auto'>
+          <Routes>
+            <Route path="/" element={<ProjectsView />} />
+            {/* <Route path="/about" element={<About />} /> */}
+          </Routes>
+
+        </div>
+      </div>
     </>
   )
 }
