@@ -24,7 +24,6 @@ export const ProjectsView = () => {
             .min(Yup.ref('start_date'), 'End date cannot be before start date')
     });
 
-    // Formik setup
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -34,7 +33,6 @@ export const ProjectsView = () => {
         },
         validationSchema,
         onSubmit: async (values) => {
-            // Convert dates to desired format before submission
             const formattedValues = {
                 ...values,
                 start_date: moment(values.start_date).format('YYYY-MM-DD'),
@@ -49,7 +47,6 @@ export const ProjectsView = () => {
         }
     });
 
-    // Helper to check if field has error
     const isInvalid = (field) => formik.touched[field] && formik.errors[field];
 
 

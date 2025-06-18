@@ -72,7 +72,7 @@ export const CardProject = ({ project }) => {
                         </button>
 
                         {/* Menú desplegable */}
-                        {isDropdownOpen && (
+                        {/* {isDropdownOpen && (
                             <div
                                 id="dropdownDots"
                                 className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
@@ -125,7 +125,7 @@ export const CardProject = ({ project }) => {
                                 </ul>
 
                             </div>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </header>
