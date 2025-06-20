@@ -8,9 +8,13 @@ import { Calendar } from 'primereact/calendar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import { Skeleton } from 'primereact/skeleton';
+import { ProjectCardSkeleton } from '../../components/UI/ProjectCardSkeleton';
+
 
 
 export const ProjectsView = () => {
+
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
@@ -76,7 +80,17 @@ export const ProjectsView = () => {
                 </header>
 
                 {isLoading ? (
-                    <p className='text-center text-gray-600'>Cargando proyectos...</p>
+                    <main className='grid grid-cols-3 gap-6'>
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                    </main>
                 ) : (
                     <main className='grid grid-cols-3 gap-6'>
                         {projects.map((project) => (

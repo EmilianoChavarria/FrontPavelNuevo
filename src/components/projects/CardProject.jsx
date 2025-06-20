@@ -3,10 +3,11 @@ import { ProgressBar } from 'primereact/progressbar';
 import { Badge } from '../UI/Badge';
 import { Menu } from 'primereact/menu';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 
 export const CardProject = ({ project }) => {
-    const menuRight = useRef(null);
+    const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const toggleDropdown = () => {
@@ -50,7 +51,9 @@ export const CardProject = ({ project }) => {
 
         <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm'>
             <header className='flex justify-between items-center mb-2'>
-                <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>{project.name}</span>
+                <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer' onClick={() => {
+                    navigate(`/project/${project.id}/stages`);
+                }}>{project.name}</span>
                 <div>
 
                     <div ref={dropdownRef} className="aboslute">
