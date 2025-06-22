@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
+import { CardActivity } from '../activities/CardActivity';
 
-export const CategoryCard = ({ project }) => {
+export const CategoryCard = ({ category }) => {
   const { projectId } = useParams();
   const [visible, setVisible] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -30,7 +31,7 @@ export const CategoryCard = ({ project }) => {
   return (
     <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px]'>
       <header className='flex justify-between items-center mb-2' >
-        <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>Inicial</span>
+        <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>{category.name}</span>
         <div>
 
           <div ref={dropdownRef} className="aboslute">
@@ -64,7 +65,7 @@ export const CategoryCard = ({ project }) => {
                   <li>
                     <a onClick={() => {
                       toggleDropdown;
-                      openModalFunction(project.id);
+                      // openModalFunction(category.id);
 
                     }
 
@@ -83,7 +84,7 @@ export const CategoryCard = ({ project }) => {
 
                     }
                       target="_blank"
-                      href={`/gantt/${project.id}`}
+                      // href={`/gantt/${project.id}`}
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       Ver Gantt
@@ -92,7 +93,7 @@ export const CategoryCard = ({ project }) => {
                   <li>
                     <a onClick={() => {
                       toggleDropdown;
-                      deleteProject(project.id);
+                      // deleteProject(project.id);
                     }
                     }
                       href="#"
@@ -110,33 +111,20 @@ export const CategoryCard = ({ project }) => {
         </div>
       </header>
       <div className='px-1'>
-        <span className="text-sm text-gray-500 mt-1 min-h-[40px]">asdsad</span>
+        <span className="text-sm text-gray-500 mt-1 min-h-[40px]">{category.description}</span>
       </div>
       <div className='flex flex-col mt-7'>
-        <span className='font-semibold'>
+        <span className='font-semibold mb-2'>
           Listado de actividades:
         </span>
         <div className='flex flex-col gap-2'>
-          <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-100 cursor-pointer'>
-
-            asd
-            <button
-              id="dropdownMenuIconButton"
-
-              className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-600 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              type="button"
-            >
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 4 15"
-              >
-                <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-              </svg>
-            </button>
-          </div>
+          {category.activities.map((activity) => (
+            <CardActivity
+              key={activity.id}
+              activity={activity}
+            />
+          ))}
+          
 
         </div>
       </div>

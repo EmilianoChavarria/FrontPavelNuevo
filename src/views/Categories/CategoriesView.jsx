@@ -15,8 +15,8 @@ export const CategoriesView = () => {
         setIsLoading(true);
         try {
             const data = await ProjectService.projectDetails(projectId);
-            if (data) setCategories(data);
-            console.log('Fetched categories:', categories);
+            if (data) setCategories(data.categories);
+            console.log('Fetched categories:', data.categories);
         } catch (error) {
             console.error('Error fetching projects:', error);
         } finally {
@@ -43,16 +43,16 @@ export const CategoriesView = () => {
                     <p className='text-center text-gray-600'>Cargando etapas del proyecto...</p>
                 ) : (
                     <main className='flex overflow-x-auto gap-4 pb-4'>
+                        {/* <CategoryCard />
                         <CategoryCard />
                         <CategoryCard />
-                        <CategoryCard />
-                        <CategoryCard />
-                        {/* {projects.map((project) => (
-                <CardProject
-                  key={project.id}
-                  project={project}
-                />
-              ))} */}
+                        <CategoryCard /> */}
+                        {categories.map((category) => (
+                            <CategoryCard
+                                key={category.id}
+                                category={category}
+                            />
+                        ))}
                     </main>
                 )}
             </section>

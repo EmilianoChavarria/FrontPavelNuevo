@@ -20,6 +20,7 @@ export const ProjectService = {
         throw new Error(`Error al obtener la info del proyecto: ${response.status}`);
       }
       const data = await response.json();
+      // console.log("Datos del proyecto:", data);
       return data;
     } catch (error) {
       console.error("Error en ProjectService.getAll:", error);
