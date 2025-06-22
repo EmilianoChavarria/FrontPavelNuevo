@@ -29,7 +29,7 @@ export const CategoryCard = ({ category }) => {
   }, []);
 
   return (
-    <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px]'>
+    <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px] h-fit'>
       <header className='flex justify-between items-center mb-2' >
         <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>{category.name}</span>
         <div>
@@ -118,13 +118,19 @@ export const CategoryCard = ({ category }) => {
           Listado de actividades:
         </span>
         <div className='flex flex-col gap-2'>
-          {category.activities.map((activity) => (
-            <CardActivity
-              key={activity.id}
-              activity={activity}
-            />
-          ))}
-          
+          {category.activities.length > 0 ? (
+
+            category.activities.map((activity) => (
+              <CardActivity
+                key={activity.id}
+                activity={activity}
+              />
+            ))
+
+          ) : (
+            <p className="text-gray-500">No hay actividades para esta etapa.</p>
+          )}
+
 
         </div>
       </div>

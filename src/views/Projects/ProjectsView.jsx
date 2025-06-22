@@ -93,12 +93,19 @@ export const ProjectsView = () => {
                     </main>
                 ) : (
                     <main className='grid grid-cols-3 gap-6'>
-                        {projects.map((project) => (
-                            <CardProject
-                                key={project.id}
-                                project={project}
-                            />
-                        ))}
+                        {projects.length > 0 ? (
+
+                            projects.map((project) => (
+                                <CardProject
+                                    key={project.id}
+                                    project={project}
+                                />
+                            ))
+                        ) : (
+                            <div className='col-span-3 text-center'>
+                                <p className='text-gray-600'>No hay proyectos disponibles.</p>
+                            </div>
+                        )}
                     </main>
                 )}
             </section>
