@@ -3,6 +3,7 @@ import './App.css'
 import { Navbar } from './components/shared/Navbar'
 import { ProjectsView } from './views/Projects/ProjectsView'
 import { CategoriesView } from './views/Categories/CategoriesView'
+import { UsersView } from './views/Users/UsersView'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ProjectsView />} />
             <Route path="/project/:projectId/stages" element={<CategoriesView />} />
+            <Route path="/users" element={<UsersView />} />
             {/* <Route path="/about" element={<About />} /> */}
           </Routes>
 

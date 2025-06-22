@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ProgressBar } from 'primereact/progressbar';
-import { Badge } from '../UI/Badge';
+import { TimeBadge } from '../UI/TimeBadge';
 import { Menu } from 'primereact/menu';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
@@ -147,7 +147,7 @@ export const CardProject = ({ project }) => {
                             </svg>
                             {moment(project.start_date).format('ll')} - {moment(project.end_date).format('ll')}
                         </span>
-                        <Badge />
+                        <TimeBadge status = 'atrasado'/>
                     </div>
                 </div>
             </div>
