@@ -31,7 +31,7 @@ export const CategoryCard = ({ category }) => {
   return (
     <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px] h-fit'>
       <header className='flex justify-between items-center mb-2' >
-        <span className='text-lg font-medium hover:text-blue-600 hover:cursor-pointer'>{category.name}</span>
+        <span className='text-lg font-medium '>{category.name}</span>
         <div>
 
           <div ref={dropdownRef} className="aboslute">

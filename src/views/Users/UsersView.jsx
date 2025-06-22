@@ -85,7 +85,7 @@ export const UsersView = () => {
             <UserModal
                 visible={visible}
                 setVisible={setVisible}
-                // onSuccess={fetchUsers}
+                onSuccess={fetchUsers}
             />
         </>
     );

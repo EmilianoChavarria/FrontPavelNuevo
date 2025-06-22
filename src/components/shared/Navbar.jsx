@@ -11,7 +11,9 @@ export const Navbar = () => {
         <div className='bg-white shadow-sm p-4'>
             <div className='mx-auto max-w-7xl'>
                 <div className='flex justify-between items-center'>
-                    <span className='text-2xl font-semibold'>Sistema de Gestión de Proyectos</span>
+                    <span onClick={() => {
+                      navigate('/');
+                    }} className='text-2xl font-semibold hover:text-blue-500 hover:cursor-pointer'>Sistema de Gestión de Proyectos</span>
                     <button onClick={() => {
                         navigate('/users');
                     }} className='bg-green-800 text-white px-4 py-2 rounded-lg flex'>
