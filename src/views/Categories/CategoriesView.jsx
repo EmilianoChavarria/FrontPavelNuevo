@@ -1,36 +1,56 @@
+/**
+ * CategoriesView.jsx
+ * Vista que muestra las etapas (categorías) asociadas a un proyecto específico.
+ * Permite agregar nuevas etapas mediante un modal.
+ */
+
 import React, { useEffect, useState } from 'react'
-import { CategoryCard } from '../../components/categories/CategoryCard';
-import { useParams } from 'react-router-dom';
-import { ProjectService } from '../../services/ProjectService';
-import { CategoryModal } from '../../components/categories/CategoryModal'; // Importa el nuevo componente
+import { CategoryCard } from '../../components/categories/CategoryCard'
+import { useParams } from 'react-router-dom'
+import { ProjectService } from '../../services/ProjectService'
+import { CategoryModal } from '../../components/categories/CategoryModal'
 
 export const CategoriesView = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [visible, setVisible] = useState(false);
-    const { projectId } = useParams();
-    const [categories, setCategories] = useState([]);
-    // TODO: Queda pendiente el editar
+    // Estado para manejar la carga
+    const [isLoading, setIsLoading] = useState(false)
+
+    // Estado para mostrar/ocultar el modal de creación
+    const [visible, setVisible] = useState(false)
+
+    // Obtiene el ID del proyecto desde la URL
+    const { projectId } = useParams()
+
+    // Guarda la lista de categorías del proyecto
+    const [categories, setCategories] = useState([])
+
+    /**
+     * Función para obtener los detalles del proyecto, incluidas sus categorías (etapas).
+     */
     const fetchCategories = async () => {
-        setIsLoading(true);
+        setIsLoading(true)
         try {
-            const data = await ProjectService.projectDetails(projectId);
-            if (data) setCategories(data.categories);
+            const data = await ProjectService.projectDetails(projectId)
+            if (data) setCategories(data.categories)
         } catch (error) {
-            console.error('Error fetching projects:', error);
+            console.error('Error fetching project details:', error)
         } finally {
-            setIsLoading(false);
+            setIsLoading(false)
         }
     }
 
+    // Ejecuta la carga de categorías cuando cambia el ID del proyecto
     useEffect(() => {
-        fetchCategories();
-    }, [projectId]);
+        fetchCategories()
+    }, [projectId])
 
     return (
         <>
             <section>
+                {/* Encabezado de la vista con botón para agregar una nueva categoría */}
                 <header className='flex justify-between items-center mb-6'>
-                    <span className='text-xl font-semibold'>Listado de etapas del proyecto: {categories.name}</span>
+                    <span className='text-xl font-semibold'>
+                        Listado de etapas del proyecto
+                    </span>
                     <button 
                         className='bg-blue-500 text-white py-2 px-4 rounded-lg' 
                         onClick={() => setVisible(true)}
@@ -39,6 +59,7 @@ export const CategoriesView = () => {
                     </button>
                 </header>
 
+                {/* Contenido principal: muestra loader, lista o mensaje vacío */}
                 {isLoading ? (
                     <p className='text-center text-gray-600'>Cargando etapas del proyecto...</p>
                 ) : (
@@ -56,13 +77,13 @@ export const CategoriesView = () => {
                     </main>
                 )}
             </section>
-            
-            {/* Usar el componente modal separado */}
+
+            {/* Modal para agregar una nueva categoría */}
             <CategoryModal 
                 visible={visible} 
                 setVisible={setVisible} 
                 projectId={projectId}
-                onSuccess={fetchCategories} // Pasar la función para actualizar la lista
+                onSuccess={fetchCategories} 
             />
         </>
     )
