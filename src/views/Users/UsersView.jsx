@@ -5,6 +5,8 @@ import { Column } from 'primereact/column';
 import { UserService } from '../../services/UserService';
 import { Badge } from '../../components/UI/Badge';
 import { MdBlock } from "react-icons/md";
+import { Tooltip } from '../../components/UI/Tooltip';
+import { BiSolidEditAlt } from "react-icons/bi";
 
 
 export const UsersView = () => {
@@ -16,13 +18,17 @@ export const UsersView = () => {
         return <Badge value={product.status} status={product.status === 'activo' ? 'success' : 'danger'}></Badge>;
     };
     const actionsBodyTemplate = (product) => {
-        return <div>
-            <button className='hover:bg-blue-500 hover:text-white py-1 px-2 rounded-lg mr-2'>
-                Editar
-            </button>
-            <button className='bg-red-500 text-white py-1 px-2 rounded-lg' >
-                <MdBlock className='h-5 w-5' />
-            </button>
+        return <div >
+            <Tooltip text="Editar usuario">
+                <button className=' hover:text-yellow-400  py-1 rounded-lg mr-2'>
+                    <BiSolidEditAlt className='h-5 w-5' />
+                </button>
+            </Tooltip>
+            <Tooltip text="Desactivar usuario">
+                <button className='hover:text-red-500 py-1 rounded-lg' >
+                    <MdBlock className='h-5 w-5' />
+                </button>
+            </Tooltip>
         </div>;
     };
 
