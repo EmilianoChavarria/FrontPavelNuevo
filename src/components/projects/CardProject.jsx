@@ -14,21 +14,22 @@ export const CardProject = ({ project }) => {
         setIsDropdownOpen((prevState) => !prevState);
     };
 
-    const items = [
-        {
-            label: 'Options',
-            items: [
-                {
-                    label: 'Refresh',
-                    icon: 'pi pi-refresh'
-                },
-                {
-                    label: 'Export',
-                    icon: 'pi pi-upload'
-                }
-            ]
+    const getProjectStatus = () => {
+        const today = moment();
+        const endDate = moment(project.end_date);
+        const completion = parseFloat(project.completion_percentage);
+
+        if (completion === 100) {
+            return 'completado';
         }
-    ];
+
+        if (today.isAfter(endDate)) {
+            return 'atrasado';
+        }
+
+        return 'en proceso';
+    };
+
 
     useEffect(() => {
 
@@ -147,7 +148,7 @@ export const CardProject = ({ project }) => {
                             </svg>
                             {moment(project.start_date).format('ll')} - {moment(project.end_date).format('ll')}
                         </span>
-                        <TimeBadge status = 'atrasado'/>
+                        <TimeBadge status={getProjectStatus()} />
                     </div>
                 </div>
             </div>
