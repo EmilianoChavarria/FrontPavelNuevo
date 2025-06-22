@@ -9,6 +9,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { DepartmentService } from '../../services/DepartmentService';
 import { PositionService } from '../../services/PositionService';
 import { RoleService } from '../../services/RolesService';
+import { Tooltip } from '../UI/Tooltip';
 
 export const UserModal = ({ visible, setVisible, onSuccess }) => {
     // Datos de ejemplo para departamentos (deberías reemplazarlos con tus datos reales)
@@ -158,22 +159,27 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
                 {/* Department Field */}
                 <div className="flex flex-col gap-2 mb-4">
                     <label htmlFor="department_id" className="font-medium">Departamento:</label>
-                    <div className={`border border-gray-300 rounded-md ${isInvalid('department_id') ? 'border-red-500' : ''}`}>
-                        <Dropdown
-                            id="department_id"
-                            name="department_id"
-                            value={formik.values.department_id}
-                            onChange={(e) => {
-                                formik.setFieldValue('department_id', e.value);
-                            }}
-                            onBlur={formik.handleBlur}
-                            options={departments}
-                            optionLabel="name"
-                            optionValue="id"
-                            placeholder="Seleccione un departamento"
-                            className="w-full border-none"
-                            loading={isLoading ? true : false}
-                        />
+                    <div className='flex items-center justify-between'>
+                        <div className={`w-[90%] border border-gray-300 rounded-md ${isInvalid('department_id') ? 'border-red-500' : ''}`}>
+                            <Dropdown
+                                id="department_id"
+                                name="department_id"
+                                value={formik.values.department_id}
+                                onChange={(e) => {
+                                    formik.setFieldValue('department_id', e.value);
+                                }}
+                                onBlur={formik.handleBlur}
+                                options={departments}
+                                optionLabel="name"
+                                optionValue="id"
+                                placeholder="Seleccione un departamento"
+                                className="w-full border-none"
+                                loading={isLoading ? true : false}
+                            />
+                        </div>
+                        <Tooltip text="Nuevo departamento">
+                            <button type="button" className='border border-blue-500 px-3 py-1 rounded-lg hover:bg-blue-500 hover:text-white text-lg font-semibold'>+</button>
+                        </Tooltip>
                     </div>
                     {isInvalid('department_id') && <small className="text-red-500 text-sm">{formik.errors.department_id}</small>}
                 </div>

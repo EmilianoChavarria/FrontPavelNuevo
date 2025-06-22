@@ -14,7 +14,7 @@ export const UsersView = () => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
-
+    // TODO: Falta hacer el editar
     const statusBodyTemplate = (product) => (
         <Badge value={product.status} status={product.status === 'activo' ? 'success' : 'danger'} />
     );
