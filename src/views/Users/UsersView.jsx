@@ -7,12 +7,14 @@ import { Badge } from '../../components/UI/Badge';
 import { MdBlock } from "react-icons/md";
 import { Tooltip } from '../../components/UI/Tooltip';
 import { BiSolidEditAlt } from "react-icons/bi";
+import { UserModal } from '../../components/users/UserModal';
 
 
 export const UsersView = () => {
 
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true);
+    const [visible, setVisible] = useState(false);
 
     const statusBodyTemplate = (product) => {
         return <Badge value={product.status} status={product.status === 'activo' ? 'success' : 'danger'}></Badge>;
@@ -53,7 +55,7 @@ export const UsersView = () => {
             <section>
                 <header className='flex justify-between items-center mb-6'>
                     <span className='text-xl font-semibold'>Listado de personal</span>
-                    <button className='bg-blue-500 text-white py-2 px-4 rounded-lg' >
+                    <button onClick={() => setVisible(true)} className='bg-blue-500 text-white py-2 px-4 rounded-lg' >
                         Agregar usuario
                     </button>
                 </header>
@@ -71,6 +73,12 @@ export const UsersView = () => {
                 </main>
 
             </section>
+
+            <UserModal
+                visible={visible} 
+                setVisible={setVisible} 
+                // onSuccess={fetchCategories} 
+            />
 
         </>
     )

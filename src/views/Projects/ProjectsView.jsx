@@ -18,7 +18,7 @@ export const ProjectsView = () => {
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
-
+    // TODO: Queda pendiente el editar  
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
         description: Yup.string().required('Description is required'),
