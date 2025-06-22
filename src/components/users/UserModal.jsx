@@ -1,21 +1,57 @@
 import { useFormik } from 'formik';
 import { Dialog } from 'primereact/dialog';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { UserService } from '../../services/UserService';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
+import { DepartmentService } from '../../services/DepartmentService';
+import { PositionService } from '../../services/PositionService';
+import { RoleService } from '../../services/RolesService';
 
 export const UserModal = ({ visible, setVisible, onSuccess }) => {
     // Datos de ejemplo para departamentos (deberías reemplazarlos con tus datos reales)
-    const departments = [
-        { id: '1', name: 'Ventas' },
-        { id: '2', name: 'Marketing' },
-        { id: '3', name: 'TI' },
-        { id: '4', name: 'Recursos Humanos' },
-        { id: '5', name: 'Finanzas' }
-    ];
+
+    const [departments, setDepartments] = useState([]);
+    const [positions, setPositions] = useState([]);
+    const [roles, setRoles] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading1, setIsLoading1] = useState(true)
+    const [isLoading2, setIsLoading2] = useState(true)
+
+
+    const fecthDepartments = async () => {
+        try {
+            const data = await DepartmentService.getDepartments();
+            if (data) setDepartments(data.departments);
+        } catch (error) {
+            console.error('Error fetching departments:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+    const fecthPositions = async () => {
+        try {
+            const data = await PositionService.getPositions();
+            if (data) setPositions(data.positions);
+        } catch (error) {
+            console.error('Error fetching positions:', error);
+        } finally {
+            setIsLoading1(false);
+        }
+    }
+    const fecthRoles = async () => {
+        try {
+            const data = await RoleService.getRoles();
+            if (data) setRoles(data.roles);
+        } catch (error) {
+            console.error('Error fetching roles:', error);
+        } finally {
+            setIsLoading2(false);
+        }
+    }
+
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
@@ -47,6 +83,12 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
     });
 
     const isInvalid = (field) => formik.touched[field] && formik.errors[field];
+
+    useEffect(() => {
+        fecthDepartments();
+        fecthPositions();
+        fecthRoles();
+    }, []);
 
     return (
         <Dialog
@@ -130,6 +172,7 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
                             optionValue="id"
                             placeholder="Seleccione un departamento"
                             className="w-full border-none"
+                            loading={isLoading ? true : false}
                         />
                     </div>
                     {isInvalid('department_id') && <small className="text-red-500 text-sm">{formik.errors.department_id}</small>}
@@ -146,11 +189,12 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
                                 formik.setFieldValue('position_id', e.value);
                             }}
                             onBlur={formik.handleBlur}
-                            options={departments}
-                            optionLabel="name"
+                            options={positions}
+                            optionLabel="title"
                             optionValue="id"
                             placeholder="Seleccione un departamento"
                             className="w-full border-none"
+                            loading={isLoading1 ? true : false}
                         />
                     </div>
                     {isInvalid('position_id') && <small className="text-red-500 text-sm">{formik.errors.position_id}</small>}
@@ -167,17 +211,17 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
                                 formik.setFieldValue('role_id', e.value);
                             }}
                             onBlur={formik.handleBlur}
-                            options={departments}
+                            options={roles}
                             optionLabel="name"
                             optionValue="id"
                             placeholder="Seleccione un departamento"
                             className="w-full border-none"
+                            loading={isLoading2 ? true : false}
                         />
                     </div>
                     {isInvalid('role_id') && <small className="text-red-500 text-sm">{formik.errors.role_id}</small>}
                 </div>
 
-                {/* Agrega aquí los otros campos (position_id, role_id) de la misma manera */}
             </form>
         </Dialog>
     );
