@@ -71,9 +71,9 @@ export const ProjectsView = () => {
 
     return (
         <>
-            <section>
+            <section className='lg:px-10'>
                 <header className='flex justify-between items-center mb-6'>
-                    <span className='text-xl font-semibold'>Listado de proyectos</span>
+                    <span className='text-xl font-semibold dark:text-white'>Listado de proyectos</span>
                     <button className='bg-blue-500 text-white py-2 px-4 rounded-lg' onClick={() => setVisible(true)}>
                         Agregar proyecto
                     </button>
@@ -92,7 +92,7 @@ export const ProjectsView = () => {
                         <ProjectCardSkeleton />
                     </main>
                 ) : (
-                    <main className='grid grid-cols-3 gap-6'>
+                    <main className='grid grid-cols-3 gap-6 '>
                         {projects.length > 0 ? (
 
                             projects.map((project) => (

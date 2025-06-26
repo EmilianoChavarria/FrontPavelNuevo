@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className='bg-blue-100 py-8'>
+      <div className="bg-blue-100 dark:bg-[#0d1117] py-8 ">
         <div className=' h-screen max-w-7xl mx-auto'>
           <Routes>
             <Route path="/" element={<ProjectsView />} />

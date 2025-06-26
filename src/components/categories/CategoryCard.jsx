@@ -29,7 +29,7 @@ export const CategoryCard = ({ category }) => {
   }, []);
 
   return (
-    <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px] h-fit'>
+    <div className='bg-white px-4 py-6 rounded-lg hover:shadow-sm min-w-[400px] max-w-[400px] h-fit lg:min-w-[350px] lg:max-w-[350px] dark:text-white dark:bg-gray-800'>
       <header className='flex justify-between items-center mb-2' >
         <span className='text-lg font-medium '>{category.name}</span>
         <div>
