@@ -16,7 +16,7 @@ export const PositionModal = ({ visible, setVisible, onSuccess, positions }) => 
       validationSchema,
       onSubmit: async (values) => {
         console.log('Submitting values:', values);
-        // const result = await PositionService.savePosition(values);
+        const result = await PositionService.savePosition(values);
         onSuccess();
         setVisible(false);
         formik.resetForm();

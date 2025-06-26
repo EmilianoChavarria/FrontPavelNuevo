@@ -17,7 +17,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
         validationSchema,
         onSubmit: async (values) => {
             console.log('Submitting values:', values.name);
-            // const result = await DepartmentService.saveDepartment(values);
+            const result = await DepartmentService.saveDepartment(values);
             onSuccess();
             // setVisible(false);
             formik.resetForm();

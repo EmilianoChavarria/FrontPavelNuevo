@@ -13,4 +13,22 @@ export const DepartmentService = {
             throw error;
         }
     },
+    saveDepartment: async (department) => {
+        try {
+            const response = await fetch(`${URL}/saveDepartment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(department),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error saving department:', error);
+            throw error;
+        }
+    },
 }
