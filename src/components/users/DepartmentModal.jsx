@@ -3,6 +3,10 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import * as Yup from 'yup';
+import { DepartmentService } from "../../services/DepartmentService";
+import { BiSolidEditAlt } from "react-icons/bi";
+import { MdBlock } from "react-icons/md";
+import { Tooltip } from "../UI/Tooltip";
 
 export const DepartmentModal = ({ visible, setVisible, onSuccess, departments }) => {
     console.log('Departments:', departments);
@@ -18,6 +22,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
         onSubmit: async (values) => {
             console.log('Submitting values:', values.name);
             const result = await DepartmentService.saveDepartment(values);
+            console.log('Save result:', result);
             onSuccess();
             // setVisible(false);
             formik.resetForm();
@@ -52,7 +57,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
                     {isInvalid('name') && <small className="text-red-500 text-sm">{formik.errors.name}</small>}
                 </div>
                 <Button
-                className="bg-blue-500 px-4 py-2 rounded-lg text-white"
+                    className="bg-blue-500 px-4 py-2 rounded-lg text-white"
                     label="Guardar"
                     icon="pi pi-check"
                     onClick={formik.handleSubmit}
@@ -65,9 +70,28 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
                     departments && departments.length > 0 ? (
                         <div className="mt-4">
                             <h3 className="text-lg font-semibold">Departamentos existentes:</h3>
-                            <ul className="list-disc pl-5">
+                            <ul >
                                 {departments.map((dept) => (
-                                    <li key={dept.id} className="text-gray-700">{dept.name}</li>
+                                    <li key={dept.id} className="grid grid-cols-8 items-center border-t border-b py-2 px-4 hover:bg-gray-50">
+                                        <div className="col-span-6 md:col-span-7 lg:col-span-6 text-gray-900">
+                                            {dept.name}
+                                        </div>
+
+                                        <div className="col-span-2 md:col-span-3 lg:col-span-2 flex justify-end space-x-2">
+                                            <Tooltip text="Editar departamento">
+                                                <button className="p-1 rounded-lg text-gray-500 hover:text-yellow-400 hover:bg-yellow-50 transition-colors">
+                                                    <BiSolidEditAlt className="h-5 w-5" />
+                                                </button>
+                                            </Tooltip>
+                                            <Tooltip text='Desactivar departamento'>
+                                                <button className="p-1 rounded-lg text-gray-500 hover:text-red-500 hover:bg-red-50 transition-colors">
+
+                                                    <MdBlock className="h-5 w-5" />
+
+                                                </button>
+                                            </Tooltip>
+                                        </div>
+                                    </li>
                                 ))}
                             </ul>
                         </div>
