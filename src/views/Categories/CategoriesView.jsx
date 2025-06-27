@@ -48,7 +48,7 @@ export const CategoriesView = () => {
             <section className='lg:px-10'>
                 {/* Encabezado de la vista con botón para agregar una nueva categoría */}
                 <header className='flex justify-between items-center mb-6'>
-                    <span className='text-xl font-semibold'>
+                    <span className='text-xl font-semibold dark:text-white'>
                         Listado de etapas del proyecto
                     </span>
                     <button 

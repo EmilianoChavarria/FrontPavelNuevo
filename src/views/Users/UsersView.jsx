@@ -53,7 +53,7 @@ export const UsersView = () => {
         <>
             <section>
                 <header className="flex justify-between items-center mb-6">
-                    <span className="text-xl font-semibold">Listado de personal</span>
+                    <span className="text-xl font-semibold dark:text-white">Listado de personal</span>
                     <button
                         onClick={() => setVisible(true)}
                         className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors"
@@ -70,7 +70,7 @@ export const UsersView = () => {
                             <p className="text-lg">No hay usuarios registrados.</p>
                         </div>
                     ) : (
-                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
+                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }} className="dark:text-white dark:bg-gray-800">
                             <Column field="user_name" header="Nombre completo" />
                             <Column field="email" header="Correo" />
                             <Column body={statusBodyTemplate} header="Status" />
