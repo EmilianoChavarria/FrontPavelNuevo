@@ -73,7 +73,7 @@ export const CategoryCard = ({ category }) => {
                       href="#"
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                      Editar información
+                      Editar etapa
                     </a>
                   </li>
                   <li>
@@ -87,7 +87,7 @@ export const CategoryCard = ({ category }) => {
                       // href={`/gantt/${project.id}`}
                       className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                      Ver Gantt
+                      Registrar actividad
                     </a>
                   </li>
                   <li>
@@ -99,7 +99,7 @@ export const CategoryCard = ({ category }) => {
                       href="#"
                       className="text-red-600 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
-                      Eliminar proyecto
+                      Eliminar etapa
                     </a>
                   </li>
 

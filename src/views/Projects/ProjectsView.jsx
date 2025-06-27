@@ -71,7 +71,7 @@ export const ProjectsView = () => {
 
     return (
         <>
-            <section className='lg:px-10'>
+            <section className=''>
                 <header className='flex justify-between items-center mb-6'>
                     <span className='text-xl font-semibold dark:text-white'>Listado de proyectos</span>
                     <button className='bg-blue-500 text-white py-2 px-4 rounded-lg' onClick={() => setVisible(true)}>

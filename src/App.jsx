@@ -11,7 +11,7 @@ function App() {
     <>
       <Navbar />
       <div className="bg-blue-100 dark:bg-[#0d1117] py-8 ">
-        <div className=' h-screen max-w-7xl mx-auto'>
+        <div className=' h-screen max-w-7xl mx-auto px-10 xl:px-0'>
           <Routes>
             <Route path="/" element={<ProjectsView />} />
             <Route path="/project/:projectId/stages" element={<CategoriesView />} />
