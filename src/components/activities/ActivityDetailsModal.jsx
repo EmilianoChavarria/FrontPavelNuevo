@@ -25,7 +25,6 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
                 onHide={() => {
                     if (!visible) return;
                     setVisible(false);
-                    formik.resetForm();
                 }}
                 style={{ width: '30vw' }}
                 breakpoints={{ '960px': '50vw', '641px': '50vw' }}
