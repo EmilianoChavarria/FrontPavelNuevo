@@ -264,6 +264,7 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
                     visible={visibleModal.visible}
                     setVisible={(visible) => setVisibleModal({ ...visibleModal, visible })}
                     onSuccess={handleSuccess}
+                    positions={positions}
                 />
             )}
         </>

@@ -24,7 +24,7 @@ export const CardActivity = ({ activity }) => {
     }, []);
 
     return (
-        <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-100 cursor-pointer'>
+        <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 hover:bg-gray-100 cursor-pointer dark:border-gray-700'>
 
             {activity.name}
             <div>

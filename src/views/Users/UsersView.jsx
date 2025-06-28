@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { ProjectCardSkeleton } from '../../components/UI/ProjectCardSkeleton'
+import React, { useEffect, useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { UserService } from '../../services/UserService';
@@ -9,28 +8,32 @@ import { Tooltip } from '../../components/UI/Tooltip';
 import { BiSolidEditAlt } from "react-icons/bi";
 import { UserModal } from '../../components/users/UserModal';
 import { TableSkeleton } from '../../components/UI/TableSkeleton';
+import "primereact/resources/themes/lara-light-indigo/theme.css"; // theme
+import "primereact/resources/primereact.min.css"; // core css
+import "primeicons/primeicons.css"; // icons
+import { Button } from 'primereact/button';
 
 export const UsersView = () => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setVisible] = useState(false);
-    // TODO: Falta hacer el editar
+
     const statusBodyTemplate = (product) => (
         <Badge value={product.status} status={product.status === 'activo' ? 'success' : 'danger'} />
     );
 
     const actionsBodyTemplate = (product) => (
         <div className="flex items-center">
-            <Tooltip text="Editar usuario">
-                <button className="hover:text-yellow-400 py-1 rounded-lg mr-2">
+            
+                <Button  tooltip="Editar usuario" tooltipOptions={{ position: 'top' }} className="hover:text-yellow-400 py-1 rounded-lg mr-2 h-fit">
                     <BiSolidEditAlt className="h-5 w-5" />
-                </button>
-            </Tooltip>
-            <Tooltip text="Desactivar usuario">
-                <button className="hover:text-red-500 py-1 rounded-lg">
+                </Button>
+            
+            
+                <Button tooltip="Desactivar usuario" tooltipOptions={{ position: 'top' }} className="hover:text-red-500 py-1 rounded-lg h-fit">
                     <MdBlock className="h-5 w-5" />
-                </button>
-            </Tooltip>
+                </Button>
+            
         </div>
     );
 
@@ -51,7 +54,7 @@ export const UsersView = () => {
 
     return (
         <>
-            <section>
+            <section className="p-4">
                 <header className="flex justify-between items-center mb-6">
                     <span className="text-xl font-semibold dark:text-white">Listado de personal</span>
                     <button
@@ -66,18 +69,29 @@ export const UsersView = () => {
                     {isLoading ? (
                         <TableSkeleton />
                     ) : products.length === 0 ? (
-                        <div className="text-center text-gray-500 mt-10">
+                        <div className="text-center text-gray-500 mt-10 dark:text-gray-400">
                             <p className="text-lg">No hay usuarios registrados.</p>
                         </div>
                     ) : (
-                        <DataTable value={products} tableStyle={{ minWidth: '50rem' }} className="dark:text-white dark:bg-gray-800">
-                            <Column field="user_name" header="Nombre completo" />
-                            <Column field="email" header="Correo" />
-                            <Column body={statusBodyTemplate} header="Status" />
-                            <Column field="position_name" header="Cargo" />
-                            <Column field="departmnet_name" header="Departamento" />
-                            <Column body={actionsBodyTemplate} header="Acciones" />
-                        </DataTable>
+                        <div className="card dark:bg-gray-800">
+                            <DataTable 
+                                value={products} 
+                                tableStyle={{ minWidth: '50rem' }}
+                                className="p-datatable-sm"
+                                paginator 
+                                rows={10}
+                                rowsPerPageOptions={[5, 10, 25, 50]}
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                            >
+                                <Column field="user_name" header="Nombre completo" sortable />
+                                <Column field="email" header="Correo" sortable />
+                                <Column body={statusBodyTemplate} header="Status" sortable />
+                                <Column field="position_name" header="Cargo" sortable />
+                                <Column field="departmnet_name" header="Departamento" sortable />
+                                <Column body={actionsBodyTemplate} header="Acciones" />
+                            </DataTable>
+                        </div>
                     )}
                 </main>
             </section>
