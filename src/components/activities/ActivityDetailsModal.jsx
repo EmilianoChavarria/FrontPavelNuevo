@@ -7,6 +7,7 @@ import { GoClock } from 'react-icons/go';
 import moment from 'moment';
 import 'moment/dist/locale/es';
 import { LuFileText } from 'react-icons/lu';
+import { Badge } from '../UI/Badge';
 
 moment.locale('es');
 
@@ -50,9 +51,9 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
                         <div className="space-y-2">
                             <div className="flex items-center gap-2">
                                 <FiTarget />
-                                <span className="text-sm font-medium">ID de Actividad</span>
+                                <span className="text-sm font-medium">Estatus de la actividad</span>
                             </div>
-                            <p className="text-sm text-muted-foreground ml-6">#{activity.id}</p>
+                            <Badge value={activity.status} status={activity.status === 'no empezado' ? 'default' : activity.status === 'en proceso' ? 'warning' : 'danger'} />
                         </div>
 
                         {/* Start Date */}
@@ -92,6 +93,17 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
                         </div>
                         <p className="text-sm text-muted-foreground ml-6">{activity.dependencies}</p>
                     </div>
+                </div>
+                <div className='border-t border-t-gray-300 pt-4 mt-7 flex flex-col'>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <FiTarget />
+                            <span className="text-sm font-medium">Subactividades</span>
+                        </div>
+                        {/* <SubactivitiesModal activityId={activity.id} activityName={activity.name} /> */}
+                        <button className='px-2 py-1 rounded-md border boder-gray-100 text-sm hover:bg-gray-100 text-black'>Ver subactividades</button>
+                    </div>
+                    <p className="text-sm text-muted-foreground ml-6">Gestiona las tareas específicas de esta actividad</p>
                 </div>
 
             </Dialog>
