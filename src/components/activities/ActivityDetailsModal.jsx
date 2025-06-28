@@ -8,11 +8,12 @@ import moment from 'moment';
 import 'moment/dist/locale/es';
 import { LuFileText } from 'react-icons/lu';
 import { Badge } from '../UI/Badge';
+import { SubactivityModal } from '../subactivities/SubactivityModal';
 
 moment.locale('es');
 
 export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
-    
+    const [visibleSubactivities, setVisibleSubactivities] = useState(false);
     const formattedDate = moment(activity.start_date).format('D [de] MMMM [de] YYYY');
     const formattedEndDate = moment(activity.end_date).format('D [de] MMMM [de] YYYY');
 
@@ -102,12 +103,15 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
                             <span className="text-sm font-medium">Subactividades</span>
                         </div>
                         {/* <SubactivitiesModal activityId={activity.id} activityName={activity.name} /> */}
-                        <button className='px-2 py-1 rounded-md border boder-gray-100 text-sm hover:bg-gray-100 text-black'>Ver subactividades</button>
+                        <button onClick={() => {
+                            setVisibleSubactivities(true);
+                        }} className='px-2 py-1 rounded-md border boder-gray-100 text-sm hover:bg-gray-100 text-black'>Ver subactividades</button>
                     </div>
                     <p className="text-sm text-muted-foreground ml-6">Gestiona las tareas específicas de esta actividad</p>
                 </div>
 
             </Dialog>
+            <SubactivityModal visible={visibleSubactivities} setVisible={setVisibleSubactivities} activityId={activity.id}/>
         </>
     )
 }
