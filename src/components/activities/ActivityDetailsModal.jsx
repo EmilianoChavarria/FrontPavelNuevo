@@ -1,6 +1,6 @@
 import { Dialog } from 'primereact/dialog';
 import { ProgressBar } from 'primereact/progressbar';
-import React from 'react'
+import React, { useState } from 'react'
 import { CiCalendar } from 'react-icons/ci';
 import { FiTarget, FiUser } from 'react-icons/fi';
 import { GoClock } from 'react-icons/go';
@@ -12,6 +12,7 @@ import { Badge } from '../UI/Badge';
 moment.locale('es');
 
 export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
+    
     const formattedDate = moment(activity.start_date).format('D [de] MMMM [de] YYYY');
     const formattedEndDate = moment(activity.end_date).format('D [de] MMMM [de] YYYY');
 

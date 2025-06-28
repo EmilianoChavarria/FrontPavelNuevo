@@ -3,6 +3,7 @@ import { ActivityDetailsModal } from './ActivityDetailsModal';
 
 export const CardActivity = ({ activity }) => {
     const [visible, setVisible] = useState(false);
+    
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const toggleDropdown = () => {
