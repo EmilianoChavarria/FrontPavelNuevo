@@ -10,11 +10,13 @@ import { ActivityService } from '../../services/ActivityService';
 import { Calendar } from 'primereact/calendar';
 import { UserService } from '../../services/UserService';
 import { Dropdown } from 'primereact/dropdown';
+import { Chips } from 'primereact/chips';
 
 export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) => {
-
   const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [dependenciesChips, setDependenciesChips] = useState([]);
+  const [deliverablesChips, setDeliverablesChips] = useState([]);
 
   const fetchUsers = async () => {
     try {
@@ -39,7 +41,9 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
     end_date: Yup.date()
       .required('End date is required')
       .min(Yup.ref('start_date'), 'End date must be after start date'),
-    responsible_id: Yup.number().required('Se requiere seleccionar un responsable')
+    responsible_id: Yup.number().required('Se requiere seleccionar un responsable'),
+    dependencies: Yup.string().optional(),
+    deliverables: Yup.string().optional()
   });
 
   const formik = useFormik({
@@ -49,14 +53,21 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
       description: '',
       start_date: null,
       end_date: null,
-      responsible_id: null
+      responsible_id: null,
+      dependencies: '',
+      deliverables: ''
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        // Format dates to YYYY-MM-DD before sending
+        // Convert chips arrays to comma-separated strings
+        const dependenciesString = dependenciesChips.join(', ');
+        const deliverablesString = deliverablesChips.join(', ');
+
         const payload = {
           ...values,
+          dependencies: dependenciesString,
+          deliverables: deliverablesString,
           start_date: values.start_date ? formatDate(values.start_date) : null,
           end_date: values.end_date ? formatDate(values.end_date) : null
         };
@@ -66,7 +77,6 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
         const result = await ActivityService.saveActivity(payload);
 
         console.log('Result:', result);
-
 
         if (result.status === 200) {
           toast.success(result.message || "Actividad creada exitosamente", {
@@ -79,11 +89,12 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
             theme: "colored"
           });
 
-          setTimeout(() => {
-            onSuccess();
-            setVisible(false);
-            formik.resetForm();
-          }, 1000);
+          // Resetear el formulario y cerrar el modal
+          formik.resetForm();
+          setDependenciesChips([]);
+          setDeliverablesChips([]);
+          setVisible(false); // Asegurarse de cerrar el modal
+          onSuccess(); // Llamar a la función de éxito
         } else {
           toast.error(result.message || "Error al crear la actividad", {
             position: "top-right",
@@ -102,7 +113,6 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
     }
   });
 
-  // Helper function to format date to YYYY-MM-DD
   const formatDate = (date) => {
     if (!date) return null;
     const d = new Date(date);
@@ -130,6 +140,8 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
           if (!visible) return;
           setVisible(false);
           formik.resetForm();
+          setDependenciesChips([]);
+          setDeliverablesChips([]);
         }}
         style={{ width: '30vw' }}
         breakpoints={{ '960px': '50vw', '641px': '50vw' }}
@@ -141,6 +153,8 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
               onClick={() => {
                 setVisible(false);
                 formik.resetForm();
+                setDependenciesChips([]);
+                setDeliverablesChips([]);
               }}
               className="p-button-text"
             />
@@ -252,6 +266,38 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
               />
             </div>
             {isInvalid('responsible_id') && <small className="text-red-500 text-sm">{formik.errors.responsible_id}</small>}
+          </div>
+
+          <div className="flex flex-col gap-2 mb-4">
+            <label htmlFor="dependencies" className="font-medium">Dependencias:</label>
+            <div className={`border border-gray-300 rounded-md ${isInvalid('dependencies') ? 'border-red-500' : ''}`}>
+              <Chips
+                id="dependencies"
+                name="dependencies"
+                value={dependenciesChips}
+                onChange={(e) => setDependenciesChips(e.value)}
+                onBlur={formik.handleBlur}
+                separator=","
+                className="w-full h-10"
+              />
+            </div>
+            {isInvalid('dependencies') && <small className="text-red-500 text-sm">{formik.errors.dependencies}</small>}
+          </div>
+
+          <div className="flex flex-col gap-2 mb-4">
+            <label htmlFor="deliverables" className="font-medium">Entregables:</label>
+            <div className={`border border-gray-300 rounded-md ${isInvalid('deliverables') ? 'border-red-500' : ''}`}>
+              <Chips
+                id="deliverables"
+                name="deliverables"
+                value={deliverablesChips}
+                onChange={(e) => setDeliverablesChips(e.value)}
+                onBlur={formik.handleBlur}
+                separator=","
+                className="w-full h-10"
+              />
+            </div>
+            {isInvalid('deliverables') && <small className="text-red-500 text-sm">{formik.errors.deliverables}</small>}
           </div>
         </form>
       </Dialog>

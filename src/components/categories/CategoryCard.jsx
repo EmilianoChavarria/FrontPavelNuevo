@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CardActivity } from '../activities/CardActivity';
 import { ActivityModal } from '../activities/AcivityModal';
 
-export const CategoryCard = ({ category }) => {
+export const CategoryCard = ({ category, onActivityCreated }) => {
   const { projectId } = useParams();
   const [visible, setVisible] = useState(false);
   const [visibleAct, setVisibleAct] = useState(false);
@@ -139,10 +139,13 @@ export const CategoryCard = ({ category }) => {
         </div>
       </div >
       <ActivityModal
-      visible={visibleAct}
-      setVisible={setVisibleAct}
-      category_id={category.id}
-      // onSuccess={fetchUsers}
+        visible={visibleAct}
+        setVisible={setVisibleAct}
+        category_id={category.id}
+        onSuccess={() => {
+          console.log(`Actividad registrada en la etapa ${category.name} con éxito.`);
+          onActivityCreated(); // Llama a la función para notificar que se creó una actividad
+        }}
       />
     </>
   )
