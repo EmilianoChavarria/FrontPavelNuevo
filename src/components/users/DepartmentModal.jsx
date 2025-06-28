@@ -33,6 +33,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
                         closeOnClick: true,
                         pauseOnHover: true,
                         draggable: true,
+                        theme: "colored"
                     });
                     
                     // Esperar un poco antes de cerrar para que el usuario vea el mensaje
@@ -45,6 +46,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
                     toast.error(result.message || "Error al crear el departamento", {
                         position: "top-right",
                         autoClose: 3000,
+                        theme: "colored"
                     });
                 }
             } catch (error) {
@@ -52,6 +54,7 @@ export const DepartmentModal = ({ visible, setVisible, onSuccess, departments })
                 toast.error("Ocurrió un error inesperado", {
                     position: "top-right",
                     autoClose: 3000,
+                    theme: "colored"
                 });
             }
         }

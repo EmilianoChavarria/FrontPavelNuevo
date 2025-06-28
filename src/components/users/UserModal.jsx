@@ -12,6 +12,8 @@ import { RoleService } from '../../services/RolesService';
 import { Tooltip } from '../UI/Tooltip';
 import { DepartmentModal } from './DepartmentModal';
 import { PositionModal } from './PositionModal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const UserModal = ({ visible, setVisible, onSuccess }) => {
     // Datos de ejemplo para departamentos (deberías reemplazarlos con tus datos reales)
@@ -86,12 +88,41 @@ export const UserModal = ({ visible, setVisible, onSuccess }) => {
         },
         validationSchema,
         onSubmit: async (values) => {
-            console.log('Submitted values:', values);
-            const result = await UserService.saveUser(values);
-            console.log('User saved successfully:', result);
-            onSuccess();
-            setVisible(false);
-            formik.resetForm();
+            try {
+                const result = await UserService.saveUser(values);
+
+                if (result.status === 200) {
+                    toast.success(result.message || "Usuario creado exitosamente", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        theme: "colored"
+                    });
+
+                    // Esperar un poco antes de cerrar para que el usuario vea el mensaje
+                    setTimeout(() => {
+                        onSuccess();
+                        setVisible(false);
+                        formik.resetForm();
+                    }, 1000);
+                } else {
+                    toast.error(result.message || "Error al crear el usuario", {
+                        position: "top-right",
+                        autoClose: 3000,
+                        theme: "colored"
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                toast.error("Ocurrió un error inesperado", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    theme: "colored"
+                });
+            }
         }
     });
 

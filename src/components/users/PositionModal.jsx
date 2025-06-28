@@ -32,6 +32,7 @@ export const PositionModal = ({ visible, setVisible, onSuccess, positions }) => 
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
+            theme: "colored"
           });
 
           // Esperar un poco antes de cerrar para que el usuario vea el mensaje
@@ -39,11 +40,13 @@ export const PositionModal = ({ visible, setVisible, onSuccess, positions }) => 
             onSuccess();
             setVisible(false);
             formik.resetForm();
+            
           }, 1000);
         } else {
           toast.error(result.message || "Error al crear el cargo", {
             position: "top-right",
             autoClose: 3000,
+            theme: "colored"
           });
         }
       } catch (error) {
@@ -51,6 +54,7 @@ export const PositionModal = ({ visible, setVisible, onSuccess, positions }) => 
         toast.error("Ocurrió un error inesperado", {
           position: "top-right",
           autoClose: 3000,
+          theme: "colored"
         });
       }
     }

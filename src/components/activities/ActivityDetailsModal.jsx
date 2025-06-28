@@ -1,0 +1,100 @@
+import { Dialog } from 'primereact/dialog';
+import { ProgressBar } from 'primereact/progressbar';
+import React from 'react'
+import { CiCalendar } from 'react-icons/ci';
+import { FiTarget, FiUser } from 'react-icons/fi';
+import { GoClock } from 'react-icons/go';
+import moment from 'moment';
+import 'moment/dist/locale/es';
+import { LuFileText } from 'react-icons/lu';
+
+moment.locale('es');
+
+export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
+    const formattedDate = moment(activity.start_date).format('D [de] MMMM [de] YYYY');
+    const formattedEndDate = moment(activity.end_date).format('D [de] MMMM [de] YYYY');
+
+    return (
+        <>
+            <Dialog
+                header={activity.name}
+                visible={visible}
+                onHide={() => {
+                    if (!visible) return;
+                    setVisible(false);
+                    formik.resetForm();
+                }}
+                style={{ width: '30vw' }}
+                breakpoints={{ '960px': '50vw', '641px': '50vw' }}
+            >
+                {activity.description}
+                <div>
+                    <div className='flex justify-between items center mt-3 mb-1'>
+                        <span className='text-sm text-gray-700 dark:text-gray-400'>Progreso</span>
+                        <span className='text-sm text-gray-700 dark:text-gray-400'>{activity.completion_percentage}%</span>
+                    </div>
+                    <ProgressBar value={activity.completion_percentage} color='#3b82f6' showValue={false} className='h-3 rounded-full'></ProgressBar>
+                </div>
+                <div className='border-t border-t-gray-300 pt-4 mt-7 flex flex-col'>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Responsible */}
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                                <FiUser />
+                                <span className="text-sm font-medium">Responsable</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground ml-6">{activity.responsible_name}</p>
+                        </div>
+
+                        {/* ID */}
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                                <FiTarget />
+                                <span className="text-sm font-medium">ID de Actividad</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground ml-6">#{activity.id}</p>
+                        </div>
+
+                        {/* Start Date */}
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                                <CiCalendar />
+                                <span className="text-sm font-medium">Fecha de Inicio</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground ml-6">{formattedDate}</p>
+                        </div>
+
+                        {/* End Date */}
+                        <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                                <GoClock />
+
+                                <span className="text-sm font-medium">Fecha de Finalización</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground ml-6">{formattedEndDate}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='border-t border-t-gray-300 pt-4 mt-7 flex flex-col gap-y-6'>
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <LuFileText />
+                            <span className="text-sm font-medium">Entregables</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground ml-6">{activity.deliverables}</p>
+                    </div>
+
+                    {/* Dependencies */}
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                            <FiTarget />
+                            <span className="text-sm font-medium">Dependencias</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground ml-6">{activity.dependencies}</p>
+                    </div>
+                </div>
+
+            </Dialog>
+        </>
+    )
+}
