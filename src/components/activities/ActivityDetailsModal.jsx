@@ -19,7 +19,7 @@ moment.locale('es');
 export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => {
     console.log('ActivityDetailsModal activity:', activity);
     const [visibleSubactivities, setVisibleSubactivities] = useState(false);
-    const [comment, setComment] = useState('');
+    const [content, setContent] = useState('');
     const [commentsList, setCommentsList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const formattedDate = moment(activity.start_date || new Date()).format('D [de] MMMM [de] YYYY');
@@ -47,14 +47,14 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
 
     // Función para enviar comentario a la API
     const handleSubmitComment = async () => {
-        if (!comment.trim()) return;
+        if (!content.trim()) return;
 
         try {
             setIsSubmitting(true);
 
             const payload = {
                 activity_id: activity.id,
-                content: comment
+                content: content
             };
 
             console.log('Enviando comentario:', payload);
@@ -62,9 +62,10 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
             const response = await CommentService.saveComment(payload);
 
             if (response) {
+                fetchComments(); 
                 // Actualizar la lista de comentarios con el nuevo
                 setCommentsList(prev => [response, ...prev]);
-                setComment('');
+                setContent('');
                 // Opcional: recargar todos los comentarios para asegurar consistencia
                 // await fetchComments();
             }
@@ -207,8 +208,8 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
                         {/* Formulario para nuevo comentario */}
                         <div className='flex gap-2 pt-2 border-t border-gray-200'>
                             <InputText
-                                value={comment}
-                                onChange={(e) => setComment(e.target.value)}
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
                                 placeholder="Escribe un comentario..."
                                 className='flex-1 border border-gray-300 rounded-lg p-2'
                                 onKeyPress={(e) => e.key === 'Enter' && handleSubmitComment()}
@@ -217,7 +218,7 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
                             <Button
                                 icon={<FaPaperPlane />}
                                 onClick={handleSubmitComment}
-                                disabled={!comment.trim() || isSubmitting}
+                                disabled={!content.trim() || isSubmitting}
                                 tooltip="Enviar comentario"
                                 className='bg-blue-500 text-white hover:bg-blue-600'
                                 tooltipOptions={{ position: 'top' }}
