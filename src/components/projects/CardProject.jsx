@@ -76,7 +76,7 @@ export const CardProject = ({ project }) => {
                         </button>
 
                         {/* Menú desplegable */}
-                        {/* {isDropdownOpen && (
+                        {isDropdownOpen && (
                             <div
                                 id="dropdownDots"
                                 className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
@@ -102,12 +102,11 @@ export const CardProject = ({ project }) => {
                                     <li>
                                         <a onClick={() => {
                                             toggleDropdown;
-
+                                            navigate(`/gantt/${project.id}`);
                                         }
 
                                         }
                                             target="_blank"
-                                            href={`/gantt/${project.id}`}
                                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
                                             Ver Gantt
@@ -129,7 +128,7 @@ export const CardProject = ({ project }) => {
                                 </ul>
 
                             </div>
-                        )} */}
+                        )}
                     </div>
                 </div>
             </header>

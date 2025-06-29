@@ -31,6 +31,7 @@ export const CategoriesView = () => {
         try {
             const data = await ProjectService.projectDetails(projectId)
             if (data) setCategories(data.categories)
+                
         } catch (error) {
             console.error('Error fetching project details:', error)
         } finally {

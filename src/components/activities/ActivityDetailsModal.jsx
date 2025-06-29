@@ -16,13 +16,14 @@ import { CommentService } from '../../services/CommentService';
 
 moment.locale('es');
 
-export const ActivityDetailsModal = ({ visible, setVisible, activity }) => {
+export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => {
+    console.log('ActivityDetailsModal activity:', activity);
     const [visibleSubactivities, setVisibleSubactivities] = useState(false);
     const [comment, setComment] = useState('');
     const [commentsList, setCommentsList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const formattedDate = moment(activity.start_date).format('D [de] MMMM [de] YYYY');
-    const formattedEndDate = moment(activity.end_date).format('D [de] MMMM [de] YYYY');
+    const formattedDate = moment(activity.start_date || new Date()).format('D [de] MMMM [de] YYYY');
+    const formattedEndDate = moment(activity.end_date || new Date()).format('D [de] MMMM [de] YYYY');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Función para cargar comentarios desde la API

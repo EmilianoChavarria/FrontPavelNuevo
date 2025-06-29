@@ -4,6 +4,7 @@ import { Navbar } from './components/shared/Navbar'
 import { ProjectsView } from './views/Projects/ProjectsView'
 import { CategoriesView } from './views/Categories/CategoriesView'
 import { UsersView } from './views/Users/UsersView'
+import { GanttChart } from './components/projects/GanttCHart'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<ProjectsView />} />
             <Route path="/project/:projectId/stages" element={<CategoriesView />} />
             <Route path="/users" element={<UsersView />} />
+            <Route path="/gantt/:projectId" element={<GanttChart />} />
             {/* <Route path="/about" element={<About />} /> */}
           </Routes>
 
