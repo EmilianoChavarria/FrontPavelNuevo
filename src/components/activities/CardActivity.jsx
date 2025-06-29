@@ -27,7 +27,7 @@ export const CardActivity = ({ activity }) => {
 
     return (
         <>
-            <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 text-gray-700 hover:bg-gray-100 cursor-pointer dark:border-gray-700'>
+            <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 cursor-pointer dark:border-gray-700'>
                 <span className='w-full ' onClick={() => setVisible(true)}>
                     {activity.name}
                 </span>
