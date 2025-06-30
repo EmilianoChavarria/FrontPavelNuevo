@@ -29,7 +29,7 @@ export const TimeBadge = ({ status = 'en proceso' }) => {
   const { bg, text, icon } = statusConfig[key] || statusConfig.default
 
   return (
-    <div className={`${bg} ${text} font-semibold text-sm px-2 py-1 rounded-full flex items-center justify-center gap-x-1`}>
+    <div className={`${bg} ${text} font-semibold text-sm px-2 py-1 rounded-full flex items-center justify-center gap-x-1 whitespace-nowrap`}>
       {icon}
       {status.charAt(0).toUpperCase() + status.slice(1)}
     </div>

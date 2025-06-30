@@ -22,9 +22,9 @@ export const CardProject = ({ project, onEdit }) => {
             return 'completado';
         }
 
-        if (today.isAfter(endDate)) {
-            return 'atrasado';
-        }
+        // if (today.isAfter(endDate)) {
+        //     return 'atrasado';
+        // }
 
         return 'en proceso';
     };
