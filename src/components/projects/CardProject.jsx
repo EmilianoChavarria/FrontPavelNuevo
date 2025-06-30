@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ProgressBar } from 'primereact/progressbar';
 import { TimeBadge } from '../UI/TimeBadge';
-import { Menu } from 'primereact/menu';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 
 
-export const CardProject = ({ project }) => {
+export const CardProject = ({ project, onEdit }) => {
     const navigate = useNavigate();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -86,13 +85,11 @@ export const CardProject = ({ project }) => {
                                     aria-labelledby="dropdownMenuIconButton"
                                 >
                                     <li>
-                                        <a onClick={() => {
-                                            toggleDropdown;
-                                            openModalFunction(project.id);
-
-                                        }
-
-                                        }
+                                        <a onClick={(e) => {
+                                            e.preventDefault();
+                                            onEdit();
+                                            setIsDropdownOpen(false);
+                                        }}
                                             href="#"
                                             className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >
