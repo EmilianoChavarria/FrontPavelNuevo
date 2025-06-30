@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { ActivityDetailsModal } from './ActivityDetailsModal';
+import { ActivityModal } from './AcivityModal';
 
-export const CardActivity = ({ activity }) => {
+export const CardActivity = ({ activity, onActivityCreated, categoryId }) => {
     const [visible, setVisible] = useState(false);
-    
+    const [visibleEditModal, setVisibleEditModal] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
-    const toggleDropdown = () => {
-        setIsDropdownOpen((prevState) => !prevState);
+
+    const toggleDropdown = (e) => {
+        e?.stopPropagation(); // Previene la propagación del evento
+        setIsDropdownOpen(prev => !prev);
     };
 
     useEffect(() => {
@@ -20,20 +23,25 @@ export const CardActivity = ({ activity }) => {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-
-
-
     }, []);
+
+    const handleEditClick = (e) => {
+        e.stopPropagation();
+        setIsDropdownOpen(false);
+        setVisibleEditModal(true);
+    };
 
     return (
         <>
             <div className='flex justify-between items-center border border-gray-300 rounded-lg py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-gray-100 cursor-pointer dark:border-gray-700'>
-                <span className='w-full ' onClick={() => setVisible(true)}>
+                <span className='w-full' onClick={() => setVisible(true)}>
                     {activity.name}
                 </span>
                 <div className='flex items-center justify-center'>
-                    <span className='w-full ' onClick={() => setVisible(true)}>{activity.completion_percentage}%</span>
-                    <div ref={dropdownRef} className="aboslute">
+                    <span className='w-full' onClick={() => setVisible(true)}>
+                        {activity.completion_percentage}%
+                    </span>
+                    <div ref={dropdownRef} className="relative">
                         <button
                             id="dropdownMenuIconButton"
                             onClick={toggleDropdown}
@@ -51,67 +59,62 @@ export const CardActivity = ({ activity }) => {
                             </svg>
                         </button>
 
-                        {/* Menú desplegable */}
                         {isDropdownOpen && (
                             <div
                                 id="dropdownDots"
-                                className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                                className="z-10 absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
                             >
                                 <ul
                                     className="py-2 text-sm text-gray-700 dark:text-gray-200"
                                     aria-labelledby="dropdownMenuIconButton"
                                 >
                                     <li>
-                                        <a onClick={() => {
-                                            toggleDropdown;
-                                            // openModalFunction(category.id);
-
-                                        }
-
-                                        }
-                                            href="#"
-                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <a onClick={handleEditClick}
+                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:cursor-pointer"
                                         >
                                             Editar información
                                         </a>
                                     </li>
                                     <li>
-                                        <a onClick={() => {
-                                            toggleDropdown;
-
-                                        }
-
-                                        }
-                                            target="_blank"
-                                            // href={`/gantt/${project.id}`}
-                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        <a onClick={(e) => {
+                                            e.stopPropagation();
+                                            setIsDropdownOpen(false);
+                                        }}
+                                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:cursor-pointer"
                                         >
                                             Ver Gantt
                                         </a>
                                     </li>
                                     <li>
-                                        <a onClick={() => {
-                                            toggleDropdown;
+                                        <a onClick={(e) => {
+                                            e.stopPropagation();
+                                            setIsDropdownOpen(false);
                                             // deleteProject(project.id);
-                                        }
-                                        }
-                                            href="#"
-                                            className="text-red-600 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        }}
+                                            className="text-red-600 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white hover:cursor-pointer"
                                         >
-                                            Eliminar proyecto
+                                            Eliminar actividad
                                         </a>
                                     </li>
-
                                 </ul>
-
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+
             <ActivityDetailsModal
                 visible={visible}
                 setVisible={setVisible}
+                activity={activity}
+            />
+
+            <ActivityModal
+                visible={visibleEditModal}
+                setVisible={setVisibleEditModal}
+                category_id={categoryId}  // Asegúrate que ActivityModal espere category_id
+                onSuccess={onActivityCreated}  // Fallback por si no se pasa la función
+                isEditing={true}
                 activity={activity}
             />
         </>

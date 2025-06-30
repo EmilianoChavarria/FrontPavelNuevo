@@ -12,7 +12,14 @@ import { UserService } from '../../services/UserService';
 import { Dropdown } from 'primereact/dropdown';
 import { Chips } from 'primereact/chips';
 
-export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) => {
+export const ActivityModal = ({
+  visible,
+  setVisible,
+  onSuccess,
+  category_id,
+  isEditing = false,
+  activity
+}) => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [dependenciesChips, setDependenciesChips] = useState([]);
@@ -38,9 +45,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required'),
     start_date: Yup.date().required('Start date is required'),
-    end_date: Yup.date()
-      .required('End date is required')
-      .min(Yup.ref('start_date'), 'End date must be after start date'),
+    end_date: Yup.date().required('End date is required').min(Yup.ref('start_date')),
     responsible_id: Yup.number().required('Se requiere seleccionar un responsable'),
     dependencies: Yup.string().optional(),
     deliverables: Yup.string().optional()
@@ -72,14 +77,16 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
           end_date: values.end_date ? formatDate(values.end_date) : null
         };
 
-        console.log('Payload:', payload);
-
-        const result = await ActivityService.saveActivity(payload);
-
-        console.log('Result:', result);
+        let result;
+        if (isEditing && activity) {
+          result = await ActivityService.updateActivity(activity.id, payload);
+        } else {
+          result = await ActivityService.saveActivity(payload);
+        }
 
         if (result.status === 200) {
-          toast.success(result.message || "Actividad creada exitosamente", {
+          toast.success(result.message ||
+            (isEditing ? "Actividad actualizada exitosamente" : "Actividad creada exitosamente"), {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -90,13 +97,16 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
           });
 
           // Resetear el formulario y cerrar el modal
-          formik.resetForm();
-          setDependenciesChips([]);
-          setDeliverablesChips([]);
-          setVisible(false); // Asegurarse de cerrar el modal
-          onSuccess(); // Llamar a la función de éxito
+          setTimeout(() => {
+            formik.resetForm();
+            setDependenciesChips([]);
+            setDeliverablesChips([]);
+            setVisible(false);
+            window.location.reload(); // Recargar la página para reflejar los cambios
+          }, 2000);
         } else {
-          toast.error(result.message || "Error al crear la actividad", {
+          toast.error(result.message ||
+            (isEditing ? "Error al actualizar la actividad" : "Error al crear la actividad"), {
             position: "top-right",
             autoClose: 3000,
             theme: "colored"
@@ -122,19 +132,53 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
     return `${year}-${month}-${day}`;
   };
 
+  const parseDate = (dateString) => {
+    if (!dateString) return null;
+    const parts = dateString.split('-');
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  };
+
   const isInvalid = (field) => formik.touched[field] && formik.errors[field];
 
+  // Efecto para cargar datos cuando se abre el modal en modo edición
   useEffect(() => {
     if (visible) {
       fetchUsers();
+
+      if (isEditing && activity) {
+        // Convertir strings de chips a arrays
+        const dependenciesArray = activity.dependencies ?
+          activity.dependencies.split(',').map(item => item.trim()).filter(item => item) : [];
+        const deliverablesArray = activity.deliverables ?
+          activity.deliverables.split(',').map(item => item.trim()).filter(item => item) : [];
+
+        formik.setValues({
+          category_id: activity.category_id || category_id,
+          name: activity.name || '',
+          description: activity.description || '',
+          start_date: activity.start_date ? parseDate(activity.start_date) : null,
+          end_date: activity.end_date ? parseDate(activity.end_date) : null,
+          responsible_id: activity.responsible_id || null,
+          dependencies: activity.dependencies || '',
+          deliverables: activity.deliverables || ''
+        });
+
+        setDependenciesChips(dependenciesArray);
+        setDeliverablesChips(deliverablesArray);
+      } else {
+        // Resetear valores para creación
+        formik.resetForm();
+        setDependenciesChips([]);
+        setDeliverablesChips([]);
+      }
     }
-  }, [visible]);
+  }, [visible, isEditing, activity]);
 
   return (
     <>
       <ToastContainer />
       <Dialog
-        header="Nueva actividad"
+        header={isEditing ? "Editar actividad" : "Nueva actividad"}
         visible={visible}
         onHide={() => {
           if (!visible) return;
@@ -148,7 +192,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
         footer={
           <div>
             <Button
-              label="Cancel"
+              label="Cancelar"
               icon="pi pi-times"
               onClick={() => {
                 setVisible(false);
@@ -159,7 +203,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
               className="p-button-text"
             />
             <Button
-              label="Save"
+              label={isEditing ? "Actualizar" : "Guardar"}
               icon="pi pi-check"
               onClick={formik.handleSubmit}
               autoFocus
@@ -217,7 +261,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
                   }}
                   dateFormat="dd/mm/yy"
                   showIcon
-                  className="w-full h-10 "
+                  className="w-full h-10"
                 />
               </div>
               {isInvalid('start_date') && <small className="text-red-500 text-sm">{formik.errors.start_date}</small>}
@@ -278,7 +322,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
                 onChange={(e) => setDependenciesChips(e.value)}
                 onBlur={formik.handleBlur}
                 separator=","
-                className="w-full h-10"
+                className="w-full h-fit"
               />
             </div>
             {isInvalid('dependencies') && <small className="text-red-500 text-sm">{formik.errors.dependencies}</small>}
@@ -294,7 +338,7 @@ export const ActivityModal = ({ visible, setVisible, onSuccess, category_id }) =
                 onChange={(e) => setDeliverablesChips(e.value)}
                 onBlur={formik.handleBlur}
                 separator=","
-                className="w-full h-10"
+                className="w-full h-fit"
               />
             </div>
             {isInvalid('deliverables') && <small className="text-red-500 text-sm">{formik.errors.deliverables}</small>}

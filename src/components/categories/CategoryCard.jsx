@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { CardActivity } from '../activities/CardActivity';
 import { ActivityModal } from '../activities/AcivityModal';
+import { CategoryModal } from './CategoryModal';
 
 export const CategoryCard = ({ category, onActivityCreated }) => {
   const { projectId } = useParams();
@@ -69,11 +70,12 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
                       <a onClick={() => {
                         toggleDropdown;
                         // openModalFunction(category.id);
+                        setVisible(true);
+
 
                       }
 
                       }
-                        href="#"
                         className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                       >
                         Editar etapa
@@ -126,6 +128,7 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
               category.activities.map((activity) => (
                 <CardActivity
                   key={activity.id}
+                  categoryId={category.id}
                   activity={activity}
                 />
               ))
@@ -146,6 +149,15 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
           console.log(`Actividad registrada en la etapa ${category.name} con éxito.`);
           onActivityCreated(); // Llama a la función para notificar que se creó una actividad
         }}
+      />
+
+      <CategoryModal
+        visible={visible}
+        setVisible={setVisible}
+        projectId={projectId}
+        onActivityCreated={onActivityCreated}
+        isEditing={true}
+        category={category}
       />
     </>
   )
