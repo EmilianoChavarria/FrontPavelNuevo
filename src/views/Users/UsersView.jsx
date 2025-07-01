@@ -88,7 +88,7 @@ export const UsersView = () => {
                                 <Column field="email" header="Correo" sortable />
                                 <Column body={statusBodyTemplate} header="Status" sortable />
                                 <Column field="position_name" header="Cargo" sortable />
-                                <Column field="departmnet_name" header="Departamento" sortable />
+                                <Column field="department_name" header="Departamento" sortable />
                                 <Column body={actionsBodyTemplate} header="Acciones" />
                             </DataTable>
                         </div>

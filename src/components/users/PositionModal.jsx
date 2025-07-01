@@ -1,4 +1,3 @@
-import { Tooltip } from "@nextui-org/react";
 import { useFormik } from "formik";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -9,6 +8,7 @@ import * as Yup from 'yup';
 import { PositionService } from "../../services/PositionService";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import { Tooltip } from "../UI/Tooltip";
 
 export const PositionModal = ({ visible, setVisible, onSuccess, positions }) => {
   const validationSchema = Yup.object().shape({

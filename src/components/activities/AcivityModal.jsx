@@ -187,8 +187,7 @@ export const ActivityModal = ({
           setDependenciesChips([]);
           setDeliverablesChips([]);
         }}
-        style={{ width: '30vw' }}
-        breakpoints={{ '960px': '50vw', '641px': '50vw' }}
+        className='w-fit dark:bg-gray-800 dark:text-white'
         footer={
           <div>
             <Button
@@ -299,8 +298,8 @@ export const ActivityModal = ({
                 }}
                 onBlur={formik.handleBlur}
                 options={users}
-                optionLabel={(user) => `${user.user_name} - ${user.position_name} - ${user.departmnet_name}`}
-                optionValue="id"
+                optionLabel={(user) => `${user.user_name} - ${user.position_name} - ${user.department_name}`}
+                optionValue="user_id"
                 placeholder="Seleccione un responsable"
                 className="w-full border-none"
                 loading={isLoading}

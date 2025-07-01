@@ -9,9 +9,31 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
   const [visible, setVisible] = useState(false);
   const [visibleAct, setVisibleAct] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownDirection, setDropdownDirection] = useState('right');
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+
   const toggleDropdown = () => {
+    if (!isDropdownOpen) {
+      // Verificar la posición antes de abrir el dropdown
+      checkDropdownPosition();
+    }
     setIsDropdownOpen((prevState) => !prevState);
+  };
+
+  const checkDropdownPosition = () => {
+    if (buttonRef.current) {
+      const buttonRect = buttonRef.current.getBoundingClientRect();
+      const spaceRight = window.innerWidth - buttonRect.right;
+      const dropdownWidth = 176; // Ancho aproximado del dropdown (w-44 = 176px)
+
+      // Si no hay suficiente espacio a la derecha, mostrar a la izquierda
+      if (spaceRight < dropdownWidth) {
+        setDropdownDirection('left');
+      } else {
+        setDropdownDirection('right');
+      }
+    }
   };
 
   useEffect(() => {
@@ -38,8 +60,9 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
           <span className='text-lg font-medium '>{category.name}</span>
           <div>
 
-            <div ref={dropdownRef} className="aboslute">
+            <div ref={dropdownRef} className="relative">
               <button
+                ref={buttonRef}
                 id="dropdownMenuIconButton"
                 onClick={toggleDropdown}
                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-600 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -60,7 +83,7 @@ export const CategoryCard = ({ category, onActivityCreated }) => {
               {isDropdownOpen && (
                 <div
                   id="dropdownDots"
-                  className="z-10 absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+                  className={`z-10 absolute ${dropdownDirection === 'right' ? 'left-0' : 'right-0'} mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}
                 >
                   <ul
                     className="py-2 text-sm text-gray-700 dark:text-gray-200"

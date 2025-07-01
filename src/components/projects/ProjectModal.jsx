@@ -58,9 +58,7 @@ export const ProjectModal = ({
         setVisible(false);
         formik.resetForm();
       }}
-      className="dark:bg-gray-800 dark:text-white"
-      style={{ width: '30vw' }}
-      breakpoints={{ '960px': '50vw', '641px': '50vw' }}
+      className="w-fit dark:bg-gray-800 dark:text-white"
       footer={
         <div>
           <Button
