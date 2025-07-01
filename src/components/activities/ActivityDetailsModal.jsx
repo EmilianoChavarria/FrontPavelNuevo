@@ -62,7 +62,7 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
             const response = await CommentService.saveComment(payload);
 
             if (response) {
-                fetchComments(); 
+                fetchComments();
                 // Actualizar la lista de comentarios con el nuevo
                 setCommentsList(prev => [response, ...prev]);
                 setContent('');
@@ -85,7 +85,13 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
                     if (!visible) return;
                     setVisible(false);
                 }}
-                className="w-[40vw] max-w-[1200px]"
+                style={{ height: '80vh' }} // Establece una altura fija para el modal
+                contentStyle={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    height: '100%',
+                    overflow: 'hidden'
+                }}
             >
                 <div className='flex flex-row items- justify-between'>
                     <div className='w-fit'>
@@ -171,7 +177,7 @@ export const ActivityDetailsModal = ({ visible, setVisible, activity = {} }) => 
                     </div>
 
                     {/* Sección de comentarios mejorada */}
-                    <div className='border-l border-l-gray-300 ml-4 pl-4 min-w-[300px] flex flex-col h-[50vh]'>
+                    <div className='border-l border-l-gray-300 ml-4 pl-4 min-w-[300px] flex flex-col h-[50vh] sticky'>
                         <h3 className='font-medium text-lg mb-4'>Comentarios</h3>
 
                         {/* Lista de comentarios con scroll */}

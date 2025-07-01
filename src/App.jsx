@@ -7,23 +7,20 @@ import { UsersView } from './views/Users/UsersView'
 import { GanttChart } from './components/projects/GanttCHart'
 
 function App() {
-
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-blue-100 dark:bg-[#0d1117]">
       <Navbar />
-      <div className="bg-blue-100 dark:bg-[#0d1117] py-8 ">
-        <div className=' h-screen max-w-7xl mx-auto px-10 xl:px-0'>
+      <div className="flex-1 overflow-auto py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
           <Routes>
             <Route path="/" element={<ProjectsView />} />
             <Route path="/project/:projectId/stages" element={<CategoriesView />} />
             <Route path="/users" element={<UsersView />} />
             <Route path="/gantt/:projectId" element={<GanttChart />} />
-            {/* <Route path="/about" element={<About />} /> */}
           </Routes>
-
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
